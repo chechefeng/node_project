@@ -3,22 +3,28 @@
  */
 var express = require('express');
 var router = express.Router();
-var dataSuccess = {
-    status: '100',
-    msg: '登录成功',
-};
-const db = require("./db")
-router.post("/", function (req, res, next) {
-    console.log(req.body)
+
+router.get("/",function (req,res,next) {
+    res.render('login');
+
+})
+router.post("/admin", function (req, res, next) {
     console.log("==");
-    db.query("select ID,title,summary from article_table",function (err,data) {
-        console.log(err)
-        console.log(data)
-        dataSuccess.data=data
-        res.end(JSON.stringify(dataSuccess));
+    console.log(req.body);
 
-    });
 
+
+    // username: username,
+    // password: password
+    if(req.body.username == 'admin' && req.body.password == 'admin123'){
+        console.log(req.body)
+
+        req.session.userName = req.body.username; // 登录成功，设置 session
+        res.redirect('/');
+    }
+    else{
+        res.json({ret_code : 1, ret_msg : '账号或密码错误'});// 若登录失败，重定向到登录页面
+    }
 
 });
 module.exports = router;

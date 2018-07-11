@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>后台管理</title>
+  <style type="text/css" rel="stylesheet">
+    html,body{width:100%;height:100%;margin:0;padding:0;font-family:"lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;}
+    .header{height:40px;width:100%;background-color:#242424;position:fixed;}
+    .header_title{line-height:40px;margin-left:60px;color:#fff;font-size:15px;}
+    .header_user{font-size:12px;margin-left:20px;color:#ccc;}
+    .panel{width:380px;height:500px;margin-left:auto;margin-right:auto;padding-top:100px;font-size:14px;}
+    a{text-decoration: none;color:#fff;}
+    .login_input>span{display: inline-block;width:50px;}
+    input{height:28px;line-height:28px;width:300px;border:1px solid #ddd; border-radius:4px;margin-left:5px;margin-bottom:10px;outline: none;padding-left:10px;}
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="header_title"><a href="/">后台管理系统</a></div>
+</div>
+<div class="panel">
+  <!--<form action="/upload/up" method="post"  enctype="multipart/form-data">-->
+    <div class="login_input">
+    </div>
+    <div class="login_input">
+      <span>文件</span>
+      <input type="file" id="photo" name="image">
+
+    </div>
+    <!--<div id="btn"  style="background-color:#3C74F2;width:306px;height:32px;line-height:32px;text-align: center;color:#fff;border-radius:4px;margin-top:30px;margin-left:60px;">-->
+      <!--登录-->
+    <!--</div>-->
+    <input type="submit" id="btn"  style="background-color:#3C74F2;width:306px;height:32px;line-height:32px;text-align: center;color:#fff;border-radius:4px;margin-top:30px;margin-left:60px;" value="上传">
+
+  <!--</form>-->
+
+  <hr>
+
+
+
+
+
+  <input type="file" name="file" id="file" />
+  <button id="upload">上传</button>
+  <span id="progress">0</span>
+  <img id="image" src="" width="200" />
+</div>
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $("#btn").click(function () {
+      var file = document.querySelector('#photo');
+      var formData = new FormData();
+      formData.append('image', file.files[0]);
+//     / var data =formData.append("username", "Groucho");
+
+//      console.log(data)
+      $.ajax({
+          data: formData,
+          url: '/upload/add',
+          type:"post",
+          dataType: 'JSON',
+          contentType: false,    //不可缺
+          processData: false,    //不可缺
+          success: function(data){
+              console.log(data);
+              alert("上传成功！");
+          },
+          error: function(err){
+              console.log(err);
+          }
+      })
+  })
+
+
+
+//  (function () {
+//
+//      var file = document.querySelector('#file');
+//      var upload = document.querySelector('#upload');
+//      var progress = document.querySelector('#progress');
+//      var image = document.querySelector('#image');
+//      var xhr = new XMLHttpRequest();
+//
+//      upload.addEventListener('click', uploadFile, false);
+//      file.addEventListener('change', previewImage, false);
+//
+//      // 点击上传
+//      function uploadFile(event) {
+//          var formData = new FormData();
+//          formData.append('test-upload', file.files[0]);
+//          xhr.onload = uploadSuccess;
+//          xhr.upload.onprogress = setProgress;
+//          xhr.open('post', '/upload/add', true);
+//          xhr.send(formData);
+//      }
+//
+//      // 成功上传
+//      function uploadSuccess(event) {
+//          if (xhr.readyState === 4) {
+//              console.log(xhr.responseText);
+//          }
+//      }
+//
+//      // 进度条
+//      function setProgress(event) {
+//          if (event.lengthComputable) {
+//              var complete = Number.parseInt(event.loaded / event.total * 100);
+//              progress.innerHTML = complete + '%';
+//          }
+//      }
+//
+//      // 图片预览
+//      function previewImage(event) {
+//          var reader = new FileReader();
+//          reader.onload = function (event) {
+//              image.src = event.target.result;
+//          };
+//          reader.readAsDataURL(event.target.files[0]);
+//      }
+//  })()
+</script>
+</body>
+</html>
